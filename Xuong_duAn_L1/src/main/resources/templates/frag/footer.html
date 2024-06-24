@@ -1,0 +1,14 @@
+
+<!-- Footer -->
+<footer th:fragment="footer">
+    <div class="bg-dark py-3 justify-content-center mt-3 d-flex">
+        <div>
+            <span class="text-light my-2">Web T - Shirt Man - Nguyễn Đức Mạnh</span><br>
+        </div>
+        <div class="mx-5">
+            <form th:action="@{/logout}" method="POST">
+                <button class="btn btn-warning btn-sm">Logout!</button>
+            </form>
+        </div>
+    </div>
+</footer>
