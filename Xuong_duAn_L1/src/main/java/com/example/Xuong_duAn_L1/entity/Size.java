@@ -21,14 +21,15 @@ public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSize;
+
     private String code;
 
-    String name ;
+    private int name;
 
-    Integer status;
+    private  Integer status;
 
-    LocalDate uploadDate;
+    private LocalDate uploadDate;
 
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "size")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "size")
     Set<ProductDetail> productDetailSet;
 }

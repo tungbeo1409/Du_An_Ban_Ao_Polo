@@ -38,7 +38,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product addProduct(Product product ,
+    public Product addProduct(Product product,
                               Integer idStyle,
                               Integer idImage,
                               Integer idMaterial,
@@ -47,11 +47,19 @@ public class ProductService implements IProductService {
         Material materialOptional = materialRepo.findById(idImage).orElse(null);
         Style styleOptional = styleRepo.findById(idMaterial).orElse(null);
         Image imageOptional = imageRepo.findById(idBrand).orElse(null);
-        product.setBrand(brandOptional);
+        boolean flag = false;
+        if (brandOptional != null) {
+            product.setIdBrand(1);
+            flag = true;
+        }
+        if (!flag) {
+            product.setBrand(brandOptional);
+        }
         product.setMaterial(materialOptional);
         product.setStyle(styleOptional);
         product.setImage(imageOptional);
         product.setUploadDate(LocalDate.now());
+
         return productRepo.save(product);
     }
 

@@ -1,10 +1,9 @@
 package com.example.Xuong_duAn_L1.controller;
 
+import com.example.Xuong_duAn_L1.entity.Brand;
 import com.example.Xuong_duAn_L1.entity.Product;
-import com.example.Xuong_duAn_L1.repository.BrandRepo;
-import com.example.Xuong_duAn_L1.repository.ImageRepo;
-import com.example.Xuong_duAn_L1.repository.MaterialRepo;
-import com.example.Xuong_duAn_L1.repository.StyleRepo;
+import com.example.Xuong_duAn_L1.entity.ProductDetail;
+import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("product")
@@ -32,6 +28,10 @@ public class ProductController {
     private MaterialRepo materialRepo;
     @Autowired
     private StyleRepo styleRepo;
+    @Autowired
+    private SizeRepo sizeRepo;
+    @Autowired
+    private ColorRepo colorRepo;
 
     @GetMapping("")
     public String getAllSp(@RequestParam(defaultValue = "0") Integer page,
@@ -51,6 +51,9 @@ public class ProductController {
         model.addAttribute("size", size);
 
         model.addAttribute("add", new Product());
+        model.addAttribute("addct", new ProductDetail());
+        model.addAttribute("size", sizeRepo.findAll());
+        model.addAttribute("color", colorRepo.findAll());
         model.addAttribute("brand", brandRepo.findAll());
         model.addAttribute("image", imageRepo.findAll());
         model.addAttribute("material", materialRepo.findAll());
@@ -69,8 +72,8 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @GetMapping("dettail/{id}")
-    public String dettail(@PathVariable int id, Model model) {
+    @GetMapping("edit/{id}")
+    public String edit(@PathVariable int id, Model model) {
         Product product = productService.findProductById(id);
         model.addAttribute("detail", product);
         return "product/detail";

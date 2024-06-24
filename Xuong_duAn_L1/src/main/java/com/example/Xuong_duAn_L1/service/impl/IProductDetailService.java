@@ -9,4 +9,5 @@ public interface IProductDetailService {
 
     List<ProductDetail> getAll();
 
+    ProductDetail addProductDetail(ProductDetail productDetail , Integer idSize , Integer idColor);
 }

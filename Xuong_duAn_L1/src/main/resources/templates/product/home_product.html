@@ -19,16 +19,16 @@
                 <form class="row" th:action="@{/product/add}" method="POST" th:object="${add}">
                     <div class="col-6">
                         <label class="form-label">Code: </label>
-                        <input class="form-control" type="text" name="code" th:field="*{code}">
+                        <input class="form-control" type="text" name="code">
                         <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
                     <div class="col-6">
                         <label class="form-label">Name: </label>
-                        <input class="form-control" type="text" name="status" th:field="*{name}">
+                        <input class="form-control" type="text" name="name">
                     </div>
                     <div class="col-6">
                         <label class="form-label">Status: </label>
-                        <select class="form-control" th:field="*{status}" name="status">
+                        <select class="form-control" name="status">
                             <option th:value="1">Hoạt động</option>
                             <option th:value="0">Không hoạt động</option>
                         </select>
@@ -36,8 +36,8 @@
                     <div class="col-6">
                         <label class="form-label">Brand</label>
                         <select class="form-control" name="idBrand" id="idBrand">
+                            <option value=""> -- Choose Brand</option>
                             <div th:each="c:${brand}">
-                                <option value=""> --Choose Brand</option>
                                 <option th:value="${c.idBrand}" th:text="${c.name}"></option>
                             </div>
                         </select>
@@ -45,6 +45,7 @@
                     <div class="col-6">
                         <label class="form-label">Material</label>
                         <select class="form-control" name="idMaterial" id="idMaterial">
+                            <option value=""> -- Choose material</option>
                             <div th:each="c:${material}">
                                 <option th:value="${c.idMaterial}" th:text="${c.name}"></option>
                             </div>
@@ -53,6 +54,7 @@
                     <div class="col-6">
                         <label class="form-label">Style</label>
                         <select class="form-control" name="idStyle" id="idStyle">
+                            <option value=""> -- Choose style</option>
                             <div th:each="c:${style}">
                                 <option th:value="${c.idStyle}" th:text="${c.name}"></option>
                             </div>
@@ -67,7 +69,7 @@
                         </select>
                     </div>
                     <div class="mt-5">
-                        <button class="btn btn-success" type="submit">Add</button>
+                        <button class="btn btn-success" type="submit">Add Product</button>
                     </div>
                 </form>
             </div>
@@ -85,7 +87,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="o, iterStat : ${list}">
+                    <tr th:each="o, iterStat : ${list}" th:id="'product-row-' + ${o.idProduct}"
+                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'">
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${o.code}"></td>
                         <td th:text="${o.name}"></td>
@@ -99,7 +102,9 @@
                             <a class="btn btn-sm btn-warning"
                                th:href="@{/product/update/{idProduct}(id=${o.idProduct})}">Update</a>
                             <a class="btn btn-sm btn-danger"
-                               th:href="@{/product/delete/{idProduct}(id=${o.idProduct})}">Remove</a>
+                               th:href="@{/product/delete/{id}(id=${o.idProduct})}">Remove</a>
+                            <a class="btn btn-sm btn-info"
+                               th:href="@{/productDetail/addCt/{id}(id=${o.idProduct})}">AddSpCt</a>
                         </td>
                     </tr>
                     </tbody>
@@ -109,16 +114,19 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
-                            <a class="page-link" th:href="@{/product(page=${currentPage - 1}, size=${size})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/product(page=${currentPage - 1}, size=${size})}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                             th:classappend="${pageNum == currentPage} ? active">
-                            <a class="page-link" th:href="@{/product(page=${pageNum}, size=${size})}" th:text="${pageNum + 1}"></a>
+                            <a class="page-link" th:href="@{/product(page=${pageNum}, size=${size})}"
+                               th:text="${pageNum + 1}"></a>
                         </li>
                         <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? disabled">
-                            <a class="page-link" th:href="@{/product(page=${currentPage + 1}, size=${size})}" aria-label="Next">
+                            <a class="page-link" th:href="@{/product(page=${currentPage + 1}, size=${size})}"
+                               aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -131,53 +139,43 @@
             </div>
             <h3>Sản phẩm chi tiết</h3>
             <div class="row mt-3">
-                <form class="row" th:action="@{/product/add}" method="POST" th:object="${add}">
+                <form class="row" th:action="@{/productDetail/add}" method="POST" th:object="${addct}">
+                    <input type="hidden" name="idProductDetail">
                     <div class="col-6">
-                        <label class="form-label">Code: </label>
-                        <input class="form-control" type="text" name="code" th:field="*{code}">
+                        <label class="form-label">Id san phẩm: </label>
+                        <input class="form-control" type="text" name="idProduct" th:field="*{idProduct}" readonly>
                         <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Name: </label>
-                        <input class="form-control" type="text" name="status" th:field="*{name}">
+                        <label class="form-label">Code: </label>
+                        <input class="form-control" type="text" name="code">
+                        <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Status: </label>
-                        <select class="form-control" th:field="*{status}" name="status">
-                            <option th:value="1">Hoạt động</option>
-                            <option th:value="0">Không hoạt động</option>
+                        <label class="form-label">InputPrice: </label>
+                        <input class="form-control" type="number" name="inputPrice">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Price: </label>
+                        <input class="form-control" type="number" name="Price">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Amount: </label>
+                        <input class="form-control" type="number" name="amount">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Size</label>
+                        <select class="form-control" name="idSize" id="idSize">
+                            <option value=""> -- Choose size</option>
+                            <option th:each="c : ${size}" th:value="${c.idSize}" th:text="${c.name}"></option>
                         </select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Brand</label>
-                        <select class="form-control" name="idBrand" id="idBrand">
-                            <div th:each="c:${brand}">
-                                <option value=""> --Choose Brand</option>
-                                <option th:value="${c.idBrand}" th:text="${c.name}"></option>
-                            </div>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label">Material</label>
-                        <select class="form-control" name="idMaterial" id="idMaterial">
-                            <div th:each="c:${material}">
-                                <option th:value="${c.idMaterial}" th:text="${c.name}"></option>
-                            </div>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label">Style</label>
-                        <select class="form-control" name="idStyle" id="idStyle">
-                            <div th:each="c:${style}">
-                                <option th:value="${c.idStyle}" th:text="${c.name}"></option>
-                            </div>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label">Image</label>
-                        <select class="form-control" name="idImage" id="idImage">
-                            <div th:each="c:${image}">
-                                <option th:value="${c.idImage}" th:text="${c.name}"></option>
+                        <label class="form-label">Color</label>
+                        <select class="form-control" name="idColor" id="idColor">
+                            <option value=""> -- Choose color</option>
+                            <div th:each="c:${color}">
+                                <option th:value="${c.idColor}" th:text="${c.name}"></option>
                             </div>
                         </select>
                     </div>
@@ -190,5 +188,10 @@
     </div>
 </div>
 <div th:replace="frag/footer :: footer"></div>
+<script>
+    function selectProduct(idProduct) {
+        document.getElementById('idProduct').value = idProduct;
+    }
+</script>
 </body>
 </html>
