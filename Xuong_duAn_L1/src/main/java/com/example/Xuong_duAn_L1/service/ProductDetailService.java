@@ -35,9 +35,23 @@ public class ProductDetailService implements IProductDetailService {
         Size size = sizeRepo.findById(idSize).orElseThrow(() -> new RuntimeException("Size not found"));
         Color color = colorRepo.findById(idColor).orElseThrow(() -> new RuntimeException("Color not found"));
 
-        productDetail.setSize(size);
-        productDetail.setColor(color);
-        return productDetailRepo.save(productDetail);
+        ProductDetail add = new ProductDetail();
+        add.setSize(size);
+        add.setIdSize(size.getIdSize());
+        add.setColor(color);
+        add.setIdColor(color.getIdColor());
+
+        add.setPrice(productDetail.getPrice());
+        add.setCode(productDetail.getCode());
+        add.setIdProduct(productDetail.getIdProduct());
+        add.setInputPrice(productDetail.getInputPrice());
+        add.setAmount(productDetail.getAmount());
+        return productDetailRepo.save(add);
+    }
+
+    @Override
+    public List<ProductDetail> getProductDetailsByProductId(Integer productId) {
+        return productDetailRepo.findByProductIdProduct(productId);
     }
 
 }

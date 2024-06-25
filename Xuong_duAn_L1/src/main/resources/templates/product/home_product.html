@@ -88,7 +88,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="o, iterStat : ${list}" th:id="'product-row-' + ${o.idProduct}"
-                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'" class="">
+                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'"  >
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${o.code}"></td>
                         <td th:text="${o.name}"></td>
@@ -103,8 +103,6 @@
                                th:href="@{/product/update/{idProduct}(id=${o.idProduct})}">Update</a>
                             <a class="btn btn-sm btn-danger"
                                th:href="@{/product/delete/{id}(id=${o.idProduct})}">Remove</a>
-                            <a class="btn btn-sm btn-info"
-                               th:href="@{/productDetail/addCt/{id}(id=${o.idProduct})}">AddSpCt</a>
                         </td>
                     </tr>
                     </tbody>
@@ -142,7 +140,7 @@
                 <form class="row" th:action="@{/productDetail/add}" method="POST" th:object="${addct}">
                     <input type="hidden" name="idProductDetail">
                     <div class="col-6">
-                        <label class="form-label">Id san phẩm: </label>
+                        <label class="form-label">Id sản phẩm: </label>
                         <input class="form-control" type="text" name="idProduct" th:field="*{idProduct}" readonly>
                         <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
@@ -184,29 +182,36 @@
                     </div>
                 </form>
             </div>
-            <table class="table table-hover">
-                <thead>
-                <tr >
-                    <th scope="col">#</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Input Price</th>
-                    <th scope="col">Price</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="ct , star : ${listspct}">
-                    <th scope="row" th:text="${star.count}"></th>
-                    <th scope="row" th:text="${ct.code}"></th>
-                    <th scope="row" th:text="${ct.product.name} + ' - '
-                    + ${ct.size.name} + ' - ' + ${ct.color.name}"></th>
-                    <th scope="row" th:text="${ct.amount}"></th>
-                    <th scope="row" th:text="${ct.inputPrice}"></th>
-                    <th scope="row" th:text="${ct.price}"></th>
-                </tr>
-                </tbody>
-            </table>
+            <div id="productDetailContainer" style="display: none;">
+                <table class="table table-hover" id="productDetailTable">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Input Price</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--                <tr th:each="ct , star : ${listspct}">-->
+                    <!--                    <th scope="row" th:text="${star.count}"></th>-->
+                    <!--                    <th scope="row" th:text="${ct.code}"></th>-->
+                    <!--                    <th scope="row" th:text="${ct.product.name} + ' - '-->
+                    <!--                    + ${ct.size.name} + ' - ' + ${ct.color.name}"></th>-->
+                    <!--                    <th scope="row" th:text="${ct.amount}"></th>-->
+                    <!--                    <th scope="row" th:text="${ct.inputPrice}"></th>-->
+                    <!--                    <th scope="row" th:text="${ct.price}"></th>-->
+                    <!--                    <th scope="row">-->
+                    <!--                        <a class="btn btn-sm btn-danger"-->
+                    <!--                           th:href="@{/product/delete/{id}(id=${ct.idProductDetail})}">Remove</a>-->
+                    <!--                    </th>-->
+                    <!--                </tr>-->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -214,6 +219,31 @@
 <script>
     function selectProduct(idProduct) {
         document.getElementById('idProduct').value = idProduct;
+
+        // AJAX call to fetch product details
+        fetch('/product/details/' + idProduct)
+            .then(response => response.json())
+            .then(data => {
+                // Update the product details table
+                let tableBody = document.querySelector('#productDetailTable tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+                data.forEach((detail, index) => {
+                    let row = `
+                        <tr>
+                            <th scope="row">${index + 1}</th>
+                            <th scope="row">${detail.code}</th>
+                            <th scope="row">${detail.product.name} - ${detail.size.name} - ${detail.color.name}</th>
+                            <th scope="row">${detail.amount}</th>
+                            <th scope="row">${detail.inputPrice}</th>
+                            <th scope="row">${detail.price}</th>
+                            <th scope="row">
+                                <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Remove</a>
+                            </th>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            });
     }
 </script>
 </body>

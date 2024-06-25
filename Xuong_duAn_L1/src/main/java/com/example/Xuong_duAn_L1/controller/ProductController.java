@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("product")
 public class ProductController {
@@ -52,7 +54,7 @@ public class ProductController {
 
         model.addAttribute("add", new Product());
         model.addAttribute("addct", new ProductDetail());
-        model.addAttribute("listspct" , productDetailService.getAll());
+        model.addAttribute("listspct", productDetailService.getAll());
         model.addAttribute("size", sizeRepo.findAll());
         model.addAttribute("color", colorRepo.findAll());
         model.addAttribute("brand", brandRepo.findAll());
@@ -80,4 +82,9 @@ public class ProductController {
         return "product/detail";
     }
 
+    @GetMapping("/details/{id}")
+    @ResponseBody
+    public List<ProductDetail> getProductDetails(@PathVariable Integer id) {
+        return productDetailService.getProductDetailsByProductId(id);
+    }
 }
