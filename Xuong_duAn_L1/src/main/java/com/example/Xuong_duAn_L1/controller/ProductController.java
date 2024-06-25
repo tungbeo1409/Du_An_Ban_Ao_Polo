@@ -52,6 +52,7 @@ public class ProductController {
 
         model.addAttribute("add", new Product());
         model.addAttribute("addct", new ProductDetail());
+        model.addAttribute("listspct" , productDetailService.getAll());
         model.addAttribute("size", sizeRepo.findAll());
         model.addAttribute("color", colorRepo.findAll());
         model.addAttribute("brand", brandRepo.findAll());

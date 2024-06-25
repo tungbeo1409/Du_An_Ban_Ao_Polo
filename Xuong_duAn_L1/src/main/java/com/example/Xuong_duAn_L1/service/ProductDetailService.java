@@ -37,7 +37,7 @@ public class ProductDetailService implements IProductDetailService {
 
         productDetail.setSize(size);
         productDetail.setColor(color);
-
         return productDetailRepo.save(productDetail);
     }
+
 }

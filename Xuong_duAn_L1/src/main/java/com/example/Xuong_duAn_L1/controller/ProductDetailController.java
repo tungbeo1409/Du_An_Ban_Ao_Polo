@@ -55,16 +55,17 @@ public class ProductDetailController {
 //        model.addAttribute("style", styleRepo.findAll());
 //        return "product/home_product";
 //    }
-    @PostMapping("addCt")
-    public String addProduct(Product product,
-                             @RequestParam Integer idBrand,
-                             @RequestParam Integer idMaterial,
-                             @RequestParam Integer idStyle,
-                             @RequestParam Integer idImage
-    ) {
-        productService.addProduct(product, idStyle, idBrand, idMaterial, idImage);
-        return "redirect:/product";
-    }
+
+//    @PostMapping("addCt")
+//    public String addProduct(Product product,
+//                             @RequestParam Integer idBrand,
+//                             @RequestParam Integer idMaterial,
+//                             @RequestParam Integer idStyle,
+//                             @RequestParam Integer idImage
+//    ) {
+//        productService.addProduct(product, idStyle, idBrand, idMaterial, idImage);
+//        return "redirect:/product";
+//    }
 
     @PostMapping("add")
     public String addProductDetail(ProductDetail productDetail,
