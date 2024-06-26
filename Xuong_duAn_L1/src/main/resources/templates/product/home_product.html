@@ -88,7 +88,8 @@
                     </thead>
                     <tbody>
                     <tr th:each="o, iterStat : ${list}" th:id="'product-row-' + ${o.idProduct}"
-                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'"  >
+                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'">
+                        <!-- Các cột dữ liệu -->
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${o.code}"></td>
                         <td th:text="${o.name}"></td>
@@ -196,19 +197,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!--                <tr th:each="ct , star : ${listspct}">-->
-                    <!--                    <th scope="row" th:text="${star.count}"></th>-->
-                    <!--                    <th scope="row" th:text="${ct.code}"></th>-->
-                    <!--                    <th scope="row" th:text="${ct.product.name} + ' - '-->
-                    <!--                    + ${ct.size.name} + ' - ' + ${ct.color.name}"></th>-->
-                    <!--                    <th scope="row" th:text="${ct.amount}"></th>-->
-                    <!--                    <th scope="row" th:text="${ct.inputPrice}"></th>-->
-                    <!--                    <th scope="row" th:text="${ct.price}"></th>-->
-                    <!--                    <th scope="row">-->
-                    <!--                        <a class="btn btn-sm btn-danger"-->
-                    <!--                           th:href="@{/product/delete/{id}(id=${ct.idProductDetail})}">Remove</a>-->
-                    <!--                    </th>-->
-                    <!--                </tr>-->
+                    <tr th:each="ct , star : ${listspct}">
+                        <th scope="row" th:text="${star.count}"></th>
+                        <th scope="row" th:text="${ct.code}"></th>
+                        <th scope="row" th:text="${ct.product.name} + ' - '
+                                        + ${ct.size.name} + ' - ' + ${ct.color.name}"></th>
+                        <th scope="row" th:text="${ct.amount}"></th>
+                        <th scope="row" th:text="${ct.inputPrice}"></th>
+                        <th scope="row" th:text="${ct.price}"></th>
+                        <th scope="row">
+                            <a class="btn btn-sm btn-danger"
+                               th:href="@{/product/delete/{id}(id=${ct.idProductDetail})}">Remove</a>
+                        </th>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -216,35 +217,98 @@
     </div>
 </div>
 <div th:replace="frag/footer :: footer"></div>
-<script>
-    function selectProduct(idProduct) {
-        document.getElementById('idProduct').value = idProduct;
+<!--<script>-->
+<!--    function selectProduct(idProduct) {-->
+<!--        document.getElementById('idProduct').value = idProduct;-->
 
-        // AJAX call to fetch product details
-        fetch('/product/details/' + idProduct)
-            .then(response => response.json())
-            .then(data => {
-                // Update the product details table
-                let tableBody = document.querySelector('#productDetailTable tbody');
-                tableBody.innerHTML = ''; // Clear existing rows
-                data.forEach((detail, index) => {
-                    let row = `
-                        <tr>
-                            <th scope="row">${index + 1}</th>
-                            <th scope="row">${detail.code}</th>
-                            <th scope="row">${detail.product.name} - ${detail.size.name} - ${detail.color.name}</th>
-                            <th scope="row">${detail.amount}</th>
-                            <th scope="row">${detail.inputPrice}</th>
-                            <th scope="row">${detail.price}</th>
-                            <th scope="row">
-                                <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Remove</a>
-                            </th>
-                        </tr>
-                    `;
-                    tableBody.innerHTML += row;
+<!--        // AJAX call to fetch product details-->
+<!--        fetch('/product/details/' + idProduct)-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                // Update the product details table-->
+<!--                let tableBody = document.querySelector('#productDetailTable tbody');-->
+<!--                tableBody.innerHTML = ''; // Clear existing rows-->
+<!--                data.forEach((detail, index) => {-->
+<!--                    let row = `-->
+<!--                        <tr>-->
+<!--                            <th scope="row">${index + 1}</th>-->
+<!--                            <th scope="row">${detail.code}</th>-->
+<!--                            <th scope="row">${detail.product.name} - ${detail.size.name} - ${detail.color.name}</th>-->
+<!--                            <th scope="row">${detail.amount}</th>-->
+<!--                            <th scope="row">${detail.inputPrice}</th>-->
+<!--                            <th scope="row">${detail.price}</th>-->
+<!--                            <th scope="row">-->
+<!--                                <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Remove</a>-->
+<!--                            </th>-->
+<!--                        </tr>-->
+<!--                    `;-->
+<!--                    tableBody.innerHTML += row;-->
+<!--                });-->
+<!--            });-->
+<!--    }-->
+<!--</script>-->
+<script>
+    // document.addEventListener('DOMContentLoaded', function () {
+        // Đặt tất cả code JavaScript ở đây
+        console.log('Container:', document.getElementById('productDetailContainer'));
+        console.log('Table body:', document.querySelector('#productDetailTable tbody'));
+
+        function selectProduct(idProduct) {
+            document.getElementById('idProduct').value = idProduct;
+
+            let container = document.getElementById('productDetailContainer');
+            let tableBody = document.querySelector('#productDetailTable tbody');
+
+            if (!container || !tableBody) {
+                console.error('Không tìm thấy phần tử container hoặc bảng chi tiết sản phẩm');
+                return;
+            }
+
+            container.style.display = 'block';
+            tableBody.innerHTML = '<tr><td colspan="7">Đang tải dữ liệu...</td></tr>';
+
+            fetch('/product/details/' + idProduct)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Dữ liệu chi tiết sản phẩm:', JSON.stringify(data, null, 2));
+                    updateProductDetailTable(data);
+                })
+                .catch(error => {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
                 });
-            });
+        }
+
+    function updateProductDetailTable(details) {
+        var tableBody = document.querySelector('#productDetailTable tbody');
+        tableBody.innerHTML = ''; // Xóa dữ liệu cũ
+
+        details.forEach((detail, index) => {
+            console.log('Full detail:', detail);
+            console.log('Product:', detail.product);
+            console.log('Size:', detail.size);
+            console.log('Color:', detail.color);
+
+            let productName = detail.product && detail.product.name ? detail.product.name : 'N/A';
+            let sizeName = detail.size && detail.size.name ? detail.size.name : 'N/A';
+            let colorName = detail.color && detail.color.name ? detail.color.name : 'N/A';
+
+            let row = `
+            <tr>
+                <th scope="row">${index + 1}</th>
+                <td>${detail.code || 'N/A'}</td>
+                <td>${productName} - ${sizeName} - ${colorName}</td>
+                <td>${detail.amount || 'N/A'}</td>
+                <td>${detail.inputPrice || 'N/A'}</td>
+                <td>${detail.price || 'N/A'}</td>
+                <td>
+                    <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Xóa</a>
+                </td>
+            </tr>
+        `;
+            tableBody.innerHTML += row;
+        });
     }
+    // });
 </script>
 </body>
 </html>

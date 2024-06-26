@@ -30,11 +30,13 @@ public class ProductDetail {
     Integer idSize;
     @ManyToOne
     @JoinColumn(name = "idSize", insertable = false, updatable = false)
+    @JsonIgnore
     Size size;
 
     Integer idColor;
     @ManyToOne
     @JoinColumn(name = "idColor", insertable = false, updatable = false)
+    @JsonIgnore
     Color color;
 
     private double inputPrice;

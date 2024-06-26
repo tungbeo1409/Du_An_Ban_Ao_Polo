@@ -1,5 +1,7 @@
 package com.example.Xuong_duAn_L1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +31,7 @@ public class Material {
 
     LocalDate uploadDate;
 
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "material")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "material")
+    @JsonIgnoreProperties
     Set<Product> productSet;
 }

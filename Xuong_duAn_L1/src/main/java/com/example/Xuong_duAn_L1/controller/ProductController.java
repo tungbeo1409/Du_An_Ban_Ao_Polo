@@ -8,6 +8,8 @@ import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +86,19 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     @ResponseBody
-    public List<ProductDetail> getProductDetails(@PathVariable Integer id) {
-        return productDetailService.getProductDetailsByProductId(id);
+    public ResponseEntity<?> getProductDetails(@PathVariable Integer id) {
+        try {
+            List<ProductDetail> details = productDetailService.getProductDetailsByProductId(id);
+            for (ProductDetail detail : details) {
+                System.out.println("Product: " + detail.getProduct());
+                System.out.println("Size: " + detail.getSize());
+                System.out.println("Color: " + detail.getColor());
+            }
+            return ResponseEntity.ok(details);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi lấy chi tiết sản phẩm: " + e.getMessage());
+        }
     }
 }

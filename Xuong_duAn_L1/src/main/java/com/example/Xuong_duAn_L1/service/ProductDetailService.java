@@ -50,8 +50,11 @@ public class ProductDetailService implements IProductDetailService {
     }
 
     @Override
-    public List<ProductDetail> getProductDetailsByProductId(Integer productId) {
-        return productDetailRepo.findByProductIdProduct(productId);
+    public List<ProductDetail> getProductDetailsByProductId(Integer idProduct) {
+        List<ProductDetail> details = productDetailRepo.findByIdProduct(idProduct);
+        // Log để kiểm tra dữ liệu
+        System.out.println("Retrieved product details: " + details);
+        return details;
     }
 
 }
