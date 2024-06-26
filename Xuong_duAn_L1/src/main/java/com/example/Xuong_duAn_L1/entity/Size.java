@@ -24,7 +24,7 @@ public class Size {
 
     private String code;
 
-    private int name;
+    private String name;
 
     private  Integer status;
 

@@ -33,17 +33,15 @@ public class MaterialService implements IMaterialService {
 
     @Override
     public Material addMaterial(Material material) {
-        String code;
-        code = CodeGenerator.generateRandomCode(3);
-        material.setCode("M" + code);
+        String code = CodeGenerator.generateRandomCode(3);
+        material.setCode("M_" + code);
         material.setUploadDate(LocalDate.now());
         return materialRepo.save(material);
     }
 
     @Override
     public Material updateMaterial(Material material) {
-        String code;
-        code = CodeGenerator.generateRandomCode(3);
+        String code = CodeGenerator.generateRandomCode(3);
         material.setCode("M" + code);
         material.setUploadDate(LocalDate.now());
         return materialRepo.save(material);
