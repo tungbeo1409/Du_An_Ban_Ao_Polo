@@ -20,6 +20,7 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMaterial;
+
     private String code;
 
     private String name;

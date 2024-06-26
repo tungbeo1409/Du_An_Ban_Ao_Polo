@@ -19,23 +19,23 @@
                 <form class="row" th:action="@{/product/add}" method="POST" th:object="${add}">
                     <div class="col-6">
                         <label class="form-label">Code: </label>
-                        <input class="form-control" type="text" name="code">
+                        <input class="form-control" type="text" name="code" required>
                         <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
                     <div class="col-6">
                         <label class="form-label">Name: </label>
-                        <input class="form-control" type="text" name="name">
+                        <input class="form-control" type="text" name="name" required>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Status: </label>
-                        <select class="form-control" name="status">
+                        <select class="form-control" name="status" required>
                             <option th:value="1">Hoạt động</option>
                             <option th:value="0">Không hoạt động</option>
                         </select>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Brand</label>
-                        <select class="form-control" name="idBrand" id="idBrand">
+                        <select class="form-control" name="idBrand" id="idBrand" required>
                             <option value=""> -- Choose Brand</option>
                             <div th:each="c:${brand}">
                                 <option th:value="${c.idBrand}" th:text="${c.name}"></option>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label">Material</label>
-                        <select class="form-control" name="idMaterial" id="idMaterial">
+                        <select class="form-control" name="idMaterial" id="idMaterial" required>
                             <option value=""> -- Choose material</option>
                             <div th:each="c:${material}">
                                 <option th:value="${c.idMaterial}" th:text="${c.name}"></option>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label">Style</label>
-                        <select class="form-control" name="idStyle" id="idStyle">
+                        <select class="form-control" name="idStyle" id="idStyle" required>
                             <option value=""> -- Choose style</option>
                             <div th:each="c:${style}">
                                 <option th:value="${c.idStyle}" th:text="${c.name}"></option>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label">Image</label>
-                        <select class="form-control" name="idImage" id="idImage">
+                        <select class="form-control" name="idImage" id="idImage" required>
                             <div th:each="c:${image}">
                                 <option th:value="${c.idImage}" th:text="${c.name}"></option>
                             </div>
@@ -146,31 +146,31 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label">Code: </label>
-                        <input class="form-control" type="text" name="code">
+                        <input class="form-control" type="text" name="code" required>
                         <!--                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>-->
                     </div>
                     <div class="col-6">
                         <label class="form-label">InputPrice: </label>
-                        <input class="form-control" type="number" name="inputPrice">
+                        <input class="form-control" type="number" name="inputPrice" required>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Price: </label>
-                        <input class="form-control" type="number" name="Price">
+                        <input class="form-control" type="number" name="Price" required>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Amount: </label>
-                        <input class="form-control" type="number" name="amount">
+                        <input class="form-control" type="number" name="amount" required>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Size</label>
-                        <select class="form-control" name="idSize" id="idSize">
+                        <select class="form-control" name="idSize" id="idSize" required>
                             <option value=""> -- Choose size</option>
                             <option th:each="c : ${size}" th:value="${c.idSize}" th:text="${c.name}"></option>
                         </select>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Color</label>
-                        <select class="form-control" name="idColor" id="idColor">
+                        <select class="form-control" name="idColor" id="idColor" required>
                             <option value=""> -- Choose color</option>
                             <div th:each="c:${color}">
                                 <option th:value="${c.idColor}" th:text="${c.name}"></option>
