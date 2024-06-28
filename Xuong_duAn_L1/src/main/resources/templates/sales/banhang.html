@@ -192,53 +192,6 @@
             $('#customerModal').modal('hide');
             $('.toast').toast('show');
         });
-
-        // Sample products for demonstration
-        const products = [
-            { name: 'Áo Thun', price: 15, category: 'Áo' },
-            { name: 'Quần Jean', price: 40, category: 'Quần' },
-            { name: 'Mũ Lưỡi Trai', price: 10, category: 'Phụ kiện' },
-            { name: 'Áo Sơ Mi', price: 25, category: 'Áo' },
-            { name: 'Thắt Lưng', price: 20, category: 'Phụ kiện' }
-        ];
-
-        // Function to render products based on filters
-        function renderProducts() {
-            const searchQuery = document.querySelector('input[placeholder="Tìm kiếm sản phẩm..."]').value.toLowerCase();
-            const categoryFilter = document.getElementById('categoryFilter').value;
-            const priceFilter = document.getElementById('priceFilter').value;
-
-            const filteredProducts = products.filter(product => {
-                let matchesSearch = product.name.toLowerCase().includes(searchQuery);
-                let matchesCategory = !categoryFilter || product.category === categoryFilter;
-                let matchesPrice = !priceFilter || (
-                    (priceFilter === '0-50' && product.price < 50) ||
-                    (priceFilter === '50-100' && product.price >= 50 && product.price <= 100) ||
-                    (priceFilter === '100+' && product.price > 100)
-                );
-                return matchesSearch && matchesCategory && matchesPrice;
-            });
-
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '';
-
-            filteredProducts.forEach(product => {
-                const productItem = document.createElement('li');
-                productItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                productItem.innerHTML = `
-                    ${product.name}
-                    <span>${product.price}$</span>
-                    <button class="btn btn-primary btn-sm">Thêm</button>
-                `;
-                productList.appendChild(productItem);
-            });
-        }
-
-        document.querySelector('input[placeholder="Tìm kiếm sản phẩm..."]').addEventListener('input', renderProducts);
-        document.getElementById('categoryFilter').addEventListener('change', renderProducts);
-        document.getElementById('priceFilter').addEventListener('change', renderProducts);
-
-        renderProducts();
     </script>
 </body>
 
