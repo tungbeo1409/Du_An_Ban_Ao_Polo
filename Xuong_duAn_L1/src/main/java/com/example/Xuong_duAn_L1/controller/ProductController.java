@@ -86,9 +86,10 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     @ResponseBody
-    public ResponseEntity<?> getProductDetails(@PathVariable Integer id) {
+    public ResponseEntity<?> getProductDetails(@PathVariable Integer id , Model model) {
         try {
             List<ProductDetail> details = productDetailService.getProductDetailsByProductId(id);
+            model.addAttribute("details", details);
             for (ProductDetail detail : details) {
                 System.out.println("Product: " + detail.getProduct());
                 System.out.println("Size: " + detail.getSize());

@@ -16,7 +16,7 @@
         <div class="mt-5">
             <h2>Danh sách chất liệu</h2>
             <div class="row mt-3">
-                <div class="mt-5 ">
+                <div class="mt-5" th:if="${totalItems < 10}">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                             data-bs-whatever="@Duc Manh">Add Material
                     </button>
@@ -110,7 +110,6 @@
             // Update the modal's content.
             const modalTitle = exampleModal.querySelector('.modal-title')
             const modalBodyInput = exampleModal.querySelector('.modal-body input')
-
             modalTitle.textContent = `New material to ${recipient}`
             modalBodyInput.value = recipient
         })

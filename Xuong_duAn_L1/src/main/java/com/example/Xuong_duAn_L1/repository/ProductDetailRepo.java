@@ -15,4 +15,6 @@ public interface ProductDetailRepo extends JpaRepository<ProductDetail, Integer>
 
     @Query("SELECT pd FROM ProductDetail pd JOIN FETCH pd.product JOIN FETCH pd.size JOIN FETCH pd.color WHERE pd.product.idProduct = :productId")
     List<ProductDetail> findByProductIdWithDetails(@Param("productId") Integer productId);
+
+
 }

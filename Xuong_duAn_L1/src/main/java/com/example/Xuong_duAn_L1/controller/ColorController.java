@@ -21,7 +21,7 @@ public class ColorController {
     @GetMapping("")
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page,
-                        @RequestParam(defaultValue = "10") int size) {
+                        @RequestParam(defaultValue = "6") int size) {
         PageRequest pageable = PageRequest.of(page, size);
         Page<Color> ColorPage = colorService.getAllColorPage(pageable);
 
