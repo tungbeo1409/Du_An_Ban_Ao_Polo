@@ -26,15 +26,11 @@ public class Bill {
     @JoinColumn(name = "id_khach_hang")
     private Customer khachHang;
 
-    private String ma;
     private Date thoi_gian_tao;
     private String trang_thai;
-    private Double tong_tien;
     private String kieu;
     private Date ngay_nhan;
-    private String sdt_khach_hang;
     private Date ngay_ship;
-    private String ten_khach_hang;
     private String dia_chi_nhan_hang;
     private String ghi_chu;
     private Date ngay_tao;

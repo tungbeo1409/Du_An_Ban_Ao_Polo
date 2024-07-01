@@ -111,7 +111,7 @@
                             <span th:text="${p.color.name}"></span>
                             <span th:text="${p.size.name}"></span>
                             <span th:text="${p.price}"></span>
-                            <a th:href="@{/addtocart/{id}(id=${p.idProductDetail})}"
+                            <a th:href="@{sales/addtocart/{id}(id=${p.idProductDetail})}"
                                class="btn btn-primary btn-sm">Thêm</a>
                         </li>
                         <!-- Thêm các sản phẩm khác tại đây -->
@@ -132,16 +132,16 @@
                             <h6>Số Lượng</h6>
                             <h6></h6>
                         </li>
-                        <div th:each="c : ${carts}">
-                            <form th:action="@{/updatecart/{id}(id=${c.id})}" method="post" th:object="${c}">
+                        <div id="cartItems" th:each="c : ${carts}">
+                            <form th:action="@{sales/updatecart/{id}(id=${c.id})}" method="post" th:object="${c}">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span th:text="${c.productDetail.product.name}"></span>
                                     <span th:text="${c.productDetail.price}"></span>
                                     <span>
-                    <input style="width: 50px" type="number" name="quantity" th:value="${c.quantity}"
+                    <input style="width: 35px" type="number" name="quantity" th:value="${c.quantity}"
                            onchange="this.form.submit()"/>
                 </span>
-                                    <a th:href="@{/removecart/{id}(id=${c.id})}" class="btn btn-danger">Xóa</a>
+                                    <a th:href="@{sales/removecart/{id}(id=${c.id})}" class="btn btn-danger">Xóa</a>
                                 </li>
                             </form>
                         </div>
@@ -150,14 +150,33 @@
                         <span>Tổng tiền:</span>
                         <span th:text="${totalPrice}"></span>$
                     </div>
-                    <button class="btn btn-primary btn-block mt-3" data-toggle="modal"
-                            data-target="#customerModal">Thanh toán
-                    </button>
+                    <button class="btn btn-primary btn-block mt-3" onclick="checkCartAndShowModal()">Thanh toán</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<!-- Modal Choose -->
+<div class="modal fade" id="chooseModal" tabindex="-1" aria-labelledby="chooseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chooseModalLabel">Lựa chọn thanh toán</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="display: flex">
+                <button type="button" style="margin-bottom: auto" class="btn btn-primary" onclick="showCustomerModal()">
+                    Khách Quen
+                </button>
+                <a href="sales/payNoAbout" class="btn btn-primary" onclick="payWithoutInfo()"
+                   style="margin-right: 10px" id="payWithoutInfo">Khách Lẻ
+                </a></div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
@@ -170,54 +189,58 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="customerForm" method="post" th:action="/abate">
+                <form id="customerForm" th:object="${customer}" action= "sales/pay"
+                      method="post">
                     <div class="form-group">
                         <label for="customerName">Tên khách hàng</label>
-                        <input type="text" class="form-control" id="customerName" placeholder="Nhập tên khách hàng">
+                        <input type="text" class="form-control" th:value="${customer.name}" id="customerName"
+                               name="name" placeholder="Nhập tên khách hàng">
                     </div>
                     <div class="form-group">
                         <label for="customerPhone">Số điện thoại</label>
-                        <input type="text" class="form-control" id="customerPhone" placeholder="Nhập số điện thoại">
+                        <input type="text" class="form-control" th:value="${customer.numberPhone}" id="customerPhone"
+                               name="numberPhone" placeholder="Nhập số điện thoại">
                     </div>
                     <div class="form-group">
                         <label for="customerEmail">Email</label>
-                        <input type="email" class="form-control" id="customerEmail" placeholder="Nhập email">
+                        <input type="email" class="form-control" th:value="${customer.email}" id="customerEmail"
+                               name="email" placeholder="Nhập email">
                     </div>
                     <div class="form-group">
                         <label for="customerAddress">Địa chỉ</label>
-                        <input type="text" class="form-control" id="customerAddress" placeholder="Nhập địa chỉ">
+                        <input type="text" class="form-control" th:value="${customer.address}" id="customerAddress"
+                               name="address" placeholder="Nhập địa chỉ">
                     </div>
-                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
 
-<!-- Toast Container -->
-<div class="toast-container">
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="7000">
-        <div class="toast-header">
-            <strong class="mr-auto">Thông báo</strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            Thanh toán thành công!
-        </div>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById('customerForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        $('#customerModal').modal('hide');
-        $('.toast').toast('show');
-    });
+    function checkCartAndShowModal() {
+        const cartItems = document.getElementById('cartItems');
+        if (cartItems && cartItems.children.length > 0) {
+            $('#chooseModal').modal('show');
+        } else {
+            alert('Giỏ hàng trống. Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.');
+        }
+    }
+
+    function showCustomerModal() {
+        $('#chooseModal').modal('hide');
+        $('#customerModal').modal('show');
+    }
+
+    function payWithoutInfo() {
+        $('#chooseModal').modal('hide');
+    }
+
 </script>
 </body>
 
