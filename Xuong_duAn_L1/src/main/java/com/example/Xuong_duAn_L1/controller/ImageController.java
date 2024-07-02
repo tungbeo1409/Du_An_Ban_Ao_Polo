@@ -10,6 +10,6 @@ public class ImageController {
 
     @GetMapping("")
     public String index() {
-        return "Home";
+        return "index";
     }
 }

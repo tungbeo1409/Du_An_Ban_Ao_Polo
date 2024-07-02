@@ -28,6 +28,8 @@ public class Product {
 
     private String name;
 
+    private String imageProduct;
+
     private Integer idMaterial;
     @ManyToOne
     @JoinColumn(name = "idMaterial", insertable = false, updatable = false)
