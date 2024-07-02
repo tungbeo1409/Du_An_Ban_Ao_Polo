@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý hóa đơn</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .list-group-item {
+            cursor: pointer;
+        }
+
+        .list-group-item:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">LOGO</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Đơn hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Báo cáo</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Cài đặt</a></li>
+            </ul>
+            <span class="navbar-text">Nhân viên</span>
+        </div>
+    </header>
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title">Hóa đơn</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group" id="billList">
+                            <li class="list-group-item" data-toggle="modal" data-target="#billModal">
+                                <div>
+                                    <div><strong>Khách hàng A</strong></div>
+                                    <div>1000 $</div>
+                                    <div>2024-06-23</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item" data-toggle="modal" data-target="#billModal">
+                                <div>
+                                    <div><strong>Khách hàng B</strong></div>
+                                    <div>2000 $</div>
+                                    <div>2024-06-22</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="billModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="billModalLabel">Chi tiết hóa đơn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <strong>Khách hàng A</strong>
+                    </div>
+                    <div>
+                        <strong>Tổng tiền:</strong> 1000 $
+                    </div>
+                    <div>
+                        <strong>Ngày:</strong> 2024-06-23
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
