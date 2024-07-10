@@ -1,5 +1,6 @@
 package com.example.Xuong_duAn_L1.controller;
 
+
 import com.example.Xuong_duAn_L1.entity.*;
 import com.example.Xuong_duAn_L1.repository.BillDetailRepo;
 import com.example.Xuong_duAn_L1.repository.BillRepo;
@@ -56,7 +57,8 @@ public class SalesController {
 
     @GetMapping("")
     public String viewSales(Model model) {
-        model.addAttribute("customer", new Customer());
+        Customer customer=new Customer();
+        model.addAttribute("customer", customer);
         return "sales/banhang";
     }
 
@@ -102,25 +104,25 @@ public class SalesController {
     }
 
     @GetMapping("/payNoAbout")
-    public String payNoAbout(@ModelAttribute("customer") Customer customer) {
+    public String payNoAbout() {
         System.out.println("Đang Thanh Toán Hóa Đơn Khách Lẻ");
         Bill bill = new Bill(0L,
                 null,
                 null,
-                new Date(),
+                getTotalPrice(),
                 null,
                 "Tiền Mặt",
                 null,
                 null,
                 "HaNoi",
                 null,
-                null,
+                new Date(),
                 null,
                 null,
                 null);
         bill.setId(billRepo.save(bill).getId());
         for (Cart c : carts) {
-            BillDetail billDetail = new BillDetail(0, bill, c.getProductDetail(), null, new Date(), null, null);
+            BillDetail billDetail = new BillDetail(0, bill, c.getProductDetail(),c.getQuantity(), null, new Date(), null, null);
             billDetailRepo.save(billDetail);
         }
         carts.clear();
@@ -128,26 +130,26 @@ public class SalesController {
     }
 
     @PostMapping("/pay")
-    public String pay(@ModelAttribute("customer")Customer customer) {
+    public String pay(@ModelAttribute("customer") Customer customer) {
         System.out.println(customer);
         System.out.println("Đang Thanh Toán Hóa Đơn Khách Quen");
         Bill bill = new Bill(0L,
                 null,
                 customer,
-                new Date(),
+                getTotalPrice(),
                 null,
                 "Tiền Mặt",
                 null,
                 null,
                 "HaNoi",
                 null,
-                null,
+                new Date(),
                 null,
                 null,
                 null);
         bill.setId(billRepo.save(bill).getId());
         for (Cart c : carts) {
-            BillDetail billDetail = new BillDetail(0, bill, c.getProductDetail(), null, new Date(), null, null);
+            BillDetail billDetail = new BillDetail(0, bill, c.getProductDetail(),c.getQuantity(), null, new Date(), null, null);
             billDetailRepo.save(billDetail);
         }
         carts.clear();

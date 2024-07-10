@@ -26,6 +26,8 @@ public class BillDetail {
     @JoinColumn(name = "idProductDetail")
     ProductDetail productDetail;
 
+    int quantity;
+
     Date ngaySua;
     Date ngayTao;
     String nguoiSua;

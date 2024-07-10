@@ -20,21 +20,21 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn(name = "id_nhan_vien")
-    private Employee nhanVien;
+    private Employee nhanvien;
 
     @ManyToOne
     @JoinColumn(name = "id_khach_hang")
-    private Customer khachHang;
+    private Customer khachhang;
+    int tongtien;
 
-    private Date thoi_gian_tao;
-    private String trang_thai;
+    private String trangthai;
     private String kieu;
-    private Date ngay_nhan;
-    private Date ngay_ship;
-    private String dia_chi_nhan_hang;
-    private String ghi_chu;
-    private Date ngay_tao;
-    private Date ngay_sua;
-    private String nguoi_tao;
-    private String nguoi_sua;
+    private Date ngaynhan;
+    private Date ngayship;
+    private String diachinhanhang;
+    private String ghichu;
+    private Date ngaytao;
+    private Date ngaysua;
+    private String nguoitao;
+    private String nguoisua;
 }
